@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  nats:
+    image: nats:2.2.2
+    container_name: "nats"
+    ports:
+      - "${NATS_PORT}:${NATS_PORT}"
+      - 6222:6222
+      - 8222:8222
+    networks:
+      - app_network
+    env_file:
+      - .env
+
+  websocket:
+    container_name: "websocket"
+    build:
+      context: ./
+      dockerfile: Dockerfile.ws
+    ports:
+      - "${WS_PORT}:${WS_PORT}"
+    depends_on:
+      - nats
+    networks:
+      - app_network
+    env_file:
+      - .env
+
+  watcher:
+    container_name: "watcher"
+    build:
+      context: ./
+      dockerfile: Dockerfile.watcher
+    ports:
+      - "${WATCHER_PORT}:${WATCHER_PORT}"
+    depends_on:
+      - nats
+      - websocket
+    networks:
+      - app_network
+    env_file:
+      - .env
+networks:
+  app_network:
+    external: true

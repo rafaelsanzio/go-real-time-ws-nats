@@ -1,0 +1,21 @@
+# Imagem base
+FROM golang:1.19-alpine
+
+# Instalando as dependências
+RUN apk update && apk add git
+
+# Copiando os arquivos do projeto
+COPY . /watcher
+
+# Diretório de trabalho
+WORKDIR /watcher
+
+# Compilando a aplicação
+RUN go mod download
+RUN go build ./cmd/watcher/main.go
+
+# Expondo a porta 9090
+EXPOSE 9090
+
+# Comando para iniciar a aplicação
+CMD ["./main"]
