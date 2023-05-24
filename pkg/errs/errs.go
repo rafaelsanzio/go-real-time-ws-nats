@@ -46,6 +46,7 @@ var (
 // pkg/stream
 var (
 	ErrNatsConnection = _new("NAT001", "error starting nats connection")
+	ErrNatsEmptyTopic = _new("NAT002", "error getting param topic")
 )
 
 // pkg/websocket
