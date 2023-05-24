@@ -3,7 +3,6 @@ module github.com/rafaelsanzio/go-stream-live
 go 1.20
 
 require (
-	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/nats-io/nats.go v1.25.0
