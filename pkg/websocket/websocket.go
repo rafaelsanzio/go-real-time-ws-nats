@@ -44,20 +44,25 @@ func (ws WebSocket) WriteMessage(conn *websocket.Conn, data []byte) {
 func Handler(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 
+	topic := r.URL.Query().Get("topic")
+	if topic == "" {
+		_ = errs.ErrNatsEmptyTopic.Throwf(applog.Log, errs.ErrFmt)
+	}
+
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		_ = errs.ErrWebSocketUpgrader.Throwf(applog.Log, errs.ErrFmt, err)
 		return
 	}
 
-	natsURL, err_ := config.Value(key.NatsURL)
-	if err_ != nil {
-		_ = errs.ErrGettingEnvNatsURL.Throwf(applog.Log, errs.ErrFmt, err_)
+	natsURL, err := config.Value(key.NatsURL)
+	if err != nil {
+		_ = errs.ErrGettingEnvNatsURL.Throwf(applog.Log, errs.ErrFmt, err)
 	}
 
-	natsPort, err_ := config.Value(key.NatsPort)
-	if err_ != nil {
-		_ = errs.ErrGettingEnvNatsPort.Throwf(applog.Log, errs.ErrFmt, err_)
+	natsPort, err := config.Value(key.NatsPort)
+	if err != nil {
+		_ = errs.ErrGettingEnvNatsPort.Throwf(applog.Log, errs.ErrFmt, err)
 	}
 
 	natsStream := stream.Nats{
@@ -77,8 +82,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 		log.Printf("WS - Received message: %s\n", message)
 
-		// TODO: Send the message to NATS
-		subject := "any-topic"
-		natsConn.Publish(subject, message)
+		// Sending the message to NATS
+		natsConn.Publish(topic, message)
 	}
 }
