@@ -16,7 +16,7 @@ import (
 func main() {
 	key.LoadEnvVars()
 
-	err := Watcher("any-topic", func(message []byte) {
+	err := Watcher("stockexchange", func(message []byte) {
 		log.Printf("NATS - Received message: %s\n", string(message))
 	})
 	if err != nil {
