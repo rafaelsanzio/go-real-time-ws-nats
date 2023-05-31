@@ -44,7 +44,8 @@ func (ws WebSocket) WriteMessage(conn *websocket.Conn, data []byte) {
 func Handler(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 
-	topic := r.URL.Query().Get("topic")
+	topic := "DEFAULT"
+	topic = r.URL.Query().Get("topic")
 	if topic == "" {
 		_ = errs.ErrNatsEmptyTopic.Throwf(applog.Log, errs.ErrFmt)
 	}
