@@ -17,26 +17,11 @@ services:
     container_name: "websocket"
     build:
       context: ./
-      dockerfile: Dockerfile.ws
+      dockerfile: Dockerfile
     ports:
       - "${WS_PORT}:${WS_PORT}"
     depends_on:
       - nats
-    networks:
-      - app_network
-    env_file:
-      - .env
-
-  watcher:
-    container_name: "watcher"
-    build:
-      context: ./
-      dockerfile: Dockerfile.watcher
-    ports:
-      - "${WATCHER_PORT}:${WATCHER_PORT}"
-    depends_on:
-      - nats
-      - websocket
     networks:
       - app_network
     env_file:
