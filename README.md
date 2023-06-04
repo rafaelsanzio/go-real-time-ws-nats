@@ -15,7 +15,7 @@ Uma vez processadas, as mensagens ficam disponíveis para serem consumidas por m
 ### Instalação
 
 1. Clone the repositório: https://github.com/rafaelsanzio/go-stream-live
-2. Crie um arquivo .env como o .env.exemple mostra. Se necessário mude os valores.
+2. Crie um arquivo `.env` com base no exemplo `.env.example` fornecido. Se necessário, ajuste os valores conforme sua preferência.
 3. É necessário criar uma network no docker, para conexão com outros serviços:
    ```sh
    docker network create app_network
